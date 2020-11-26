@@ -11,18 +11,25 @@ const reactionSchema = new Schema(
         reactionBody: {
             type: String,
             required: true,
+            trim: true
             // 280 character max
         },
         username: {
             type: String,
-            required: true
+            required: true,
+            trim: true
         },
         createdAt: {
             type: Date,
             default: Date.now,
             get: createdAtVal => dateFormat(createdAtVal)
         }
-    }
+    },
+    {
+        toJSON: {
+          getters: true
+        }
+      }
 )
 
 module.exports = reactionSchema;

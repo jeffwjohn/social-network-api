@@ -91,42 +91,42 @@ deleteThought({ params }, res) {
             { new: true }
           );
         })
-        .then(dbPizzaData => {
-            if (!dbPizzaData) {
-              res.status(404).json({ message: 'No pizza found with this id!' });
+        .then(dbUserData => {
+            if (!dbUserData) {
+              res.status(404).json({ message: 'No user found with this id!' });
               return;
             }
-            res.json(dbPizzaData);
+            res.json(dbUserData);
           })
           .catch(err => res.json(err));
-      }
+      },
     
-//   addReply({ params, body }, res) {
-//     Thought.findOneAndUpdate(
-//       { _id: params.thoughtId },
-//       { $push: { replies: body } },
-//       { new: true, runValidators: true } 
-//     )
-//       .then(dbUserData => {
-//         if (!dbUserData) {
-//           res.status(404).json({ message: 'No user found with this id!' });
-//           return;
-//         }
-//         res.json(dbUserData);
-//       })
-//       .catch(err => res.json(err));
-//   },
+  addReaction({ params, body }, res) {
+    Thought.findOneAndUpdate(
+      { _id: params.thoughtId },
+      { $push: { reactions: body } },
+      { new: true, runValidators: true } 
+    )
+      .then(dbUserData => {
+        if (!dbUserData) {
+          res.status(404).json({ message: 'No user found with this id!' });
+          return;
+        }
+        res.json(dbUserData);
+      })
+      .catch(err => res.json(err));
+  },
 
-//   // remove reply
-//   removeReply({ params }, res) {
-//     Thought.findOneAndUpdate(
-//       { _id: params.thoughtId },
-//       { $pull: { replies: { replyId: params.replyId } } },
-//       { new: true }
-//     )
-//       .then(dbUserData => res.json(dbUserData))
-//       .catch(err => res.json(err));
-//   },
+  // remove reaction
+  removeReaction({ params }, res) {
+    Thought.findOneAndUpdate(
+      { _id: params.thoughtId },
+      { $pull: { reactions: { reactionId: params.reactionId } } },
+      { new: true }
+    )
+      .then(dbUserData => res.json(dbUserData))
+      .catch(err => res.json(err));
+  },
   }
 
 module.exports = thoughtController;
