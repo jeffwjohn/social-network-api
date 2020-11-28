@@ -1,4 +1,3 @@
-const dateFormat = require('../utils/dateFormat');
 const { Schema, model } = require('mongoose');
 
 const UserSchema = new Schema ({
@@ -34,10 +33,8 @@ const UserSchema = new Schema ({
     toJSON: {
       virtuals: true,
       getters: true
-      //  we'll need to tell the Mongoose model that it should use any getter function we've specified.
     },
     id: false
-    // We set id to false because this is a virtual that Mongoose returns, and we don’t need it.
   }
   );
 
