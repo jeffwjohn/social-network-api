@@ -74,14 +74,21 @@ deleteUser({ params }, res) {
         }
         return dbUserData;
         })
-        // .then(dbUserData => {
-        //     console.log("dbUserData1", dbUserData);
-        //     db.users.updateMany(
-        //         { friends: { $in: params.id } },
-        //         { $pull: { friends: params.id } }
-        //       )
-        //       return dbUserData;
-        // })
+        .then(dbUserData => {
+            console.log("dbUserData1", dbUserData);
+            console.log("PARAMS.id", params.id);
+            User.update(
+                { friends: { $in: params.id } },
+                { $pull: { friends: params.id } },
+                { multi: true }
+              )
+              .then(function(){ 
+                console.log("Data updated"); // Success 
+            }).catch(function(error){ 
+                console.log(error); // Failure 
+            }); 
+              return dbUserData;
+        })
         .then(dbUserData => {
             console.log("dbUserData2", dbUserData);
             Thought.deleteMany(
