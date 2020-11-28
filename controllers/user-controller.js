@@ -1,4 +1,5 @@
-const { User } = require('../models');
+const { User, Thought } = require('../models');
+const { db } = require('../models/User');
 
 const userController = {
     // get all users
@@ -70,18 +71,40 @@ deleteUser({ params }, res) {
       .then(dbUserData => {
         if (!dbUserData) {
           res.status(404).json({ message: 'No user found with this id!' });
-          return;
         }
-        res.json(dbUserData);
-      })
-      .catch(err => res.status(400).json(err));
+        return dbUserData;
+        })
+        // .then(dbUserData => {
+        //     console.log("dbUserData1", dbUserData);
+        //     db.users.updateMany(
+        //         { friends: { $in: params.id } },
+        //         { $pull: { friends: params.id } }
+        //       )
+        //       return dbUserData;
+        // })
+        .then(dbUserData => {
+            console.log("dbUserData2", dbUserData);
+            Thought.deleteMany(
+                { username: { $eq: dbUserData.username } })
+                .then(function(){ 
+                    console.log("Data deleted"); // Success 
+                }).catch(function(error){ 
+                    console.log(error); // Failure 
+                }); 
+            return dbUserData;
+          })
+        .then(dbUserData => {
+            console.log("dbUserData3", dbUserData);
+            res.json(dbUserData);
+          })
+          .catch(err => res.json(err));
   },
   
   // add friend
   addFriend({params}, res) {
       User.findOneAndUpdate(
           {_id: params.userId}, 
-          { $push: { friends: params.friendId } },
+          { $addToSet: { friends: params.friendId } },
           { new: true, runValidators: true }
           )
           .then(dbUserData => {
