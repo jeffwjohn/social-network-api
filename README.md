@@ -41,3 +41,6 @@ https://github.com/jeffwjohn
     
 ##### Send any questions to the following email address:
 jeffwjohn@yahoo.com
+
+##### Walkthrough video:
+ https://drive.google.com/file/d/1f68WufEG1HTodgSvGU7ibdXymO9LlOr7/view
